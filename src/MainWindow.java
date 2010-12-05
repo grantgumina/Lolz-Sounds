@@ -11,11 +11,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import sun.audio.*; 
+import java.applet.*;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,7 +26,8 @@ public class MainWindow extends JFrame implements ActionListener {
 		createAndShowGUI();
 	}
 	
-	ArrayList<AudioStream> soundClipArray = new ArrayList<AudioStream>();	
+	ArrayList<AudioStream> soundClipArray2 = new ArrayList<AudioStream>();	
+	ArrayList<AudioClip> soundClipArray = new ArrayList<AudioClip>();
 	
 	private void createAndShowGUI() {
 	    //Create and set up the window.
@@ -69,44 +69,40 @@ public class MainWindow extends JFrame implements ActionListener {
 	    frame.add(box, BorderLayout.NORTH);
 	    
 	    // Display the window.
-	    frame.setPreferredSize(new Dimension(600, 300));
+	    frame.setPreferredSize(new Dimension(700, 400));
 	    frame.pack();
 	    frame.setVisible(true);
 	}
 	
 	// Create sound buttons
-	private JButton createSoundButton(final AudioStream sound, File file) {		
+	private JButton createSoundButton(final AudioClip sound, File file) {		
 		JButton latestSound = new JButton(file.getName());
 		latestSound.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				AudioPlayer.player.start(sound);
+				sound.play();
+				//AudioPlayer.player.start(sound);
 			}
 		});
 		return latestSound;
 	}
 	
 	// Events
+	@SuppressWarnings("deprecation")
 	private void setPathButtonActionPerformed(ActionEvent evt) {
 		buttonPane.removeAll();
 	    File directory = new File(pathToFolderField.getText());
 		File[] folder = directory.listFiles();
 		for (int i = 0; i < folder.length; i++) {
-			InputStream in;
 			try {
-				in = new FileInputStream(folder[i]);
-				try {
-					AudioStream as = new AudioStream(in);
-					soundClipArray.add(as);
-					buttonPane.add(createSoundButton(as, folder[i]));
-					frame.validate();
-					
-				} catch (IOException ex) {
-					Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-				}
-			} catch (FileNotFoundException ex) {
+				AudioClip as = Applet.newAudioClip(folder[i].toURL());
+				soundClipArray.add(as);
+				buttonPane.add(createSoundButton(as, folder[i]));
+				frame.validate();
+				
+			} catch (IOException ex) {
 				Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
 			}
-		}	
+		}
 	}
 	
 	
