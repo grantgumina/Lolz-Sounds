@@ -40,6 +40,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	    JPanel topPane = new JPanel();
 	    
 	    JButton setPathButton = new JButton("Enter");
+	    JButton stopAudioButton = new JButton("Stop");
 	    
 	    // Configure objects
 	    box.add(Box.createVerticalGlue());
@@ -64,6 +65,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	    // Add to box
 	    box.add(topPane);
 	    box.add(buttonContainer);
+	    box.add(stopAudioButton);
 	    
 	    // Add to frame
 	    frame.add(box, BorderLayout.NORTH);
@@ -105,6 +107,9 @@ public class MainWindow extends JFrame implements ActionListener {
 		}
 	}
 	
+	private void stopAudioButtonActionPerformed(ActionEvent evt) {
+		
+	}
 	
 	public static void main(String args[]) {
 		java.awt.EventQueue.invokeLater(new Runnable() {
@@ -122,6 +127,5 @@ public class MainWindow extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 }
